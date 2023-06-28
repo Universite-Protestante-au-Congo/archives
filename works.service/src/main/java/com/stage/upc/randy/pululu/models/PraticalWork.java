@@ -15,6 +15,6 @@ import java.util.List;
 @ToString
 public class PraticalWork extends ClassicWork{
     private String sujet;
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE })
     private Course Cours;
 }

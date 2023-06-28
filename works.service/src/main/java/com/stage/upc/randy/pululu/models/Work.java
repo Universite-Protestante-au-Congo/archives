@@ -21,7 +21,7 @@ public class Work {
     private String departement;
     private String auteur;
 
-    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = false, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE }, optional = false, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "file")
     private WorkFile workFile;
 }

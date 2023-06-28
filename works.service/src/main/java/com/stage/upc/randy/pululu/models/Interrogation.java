@@ -16,6 +16,6 @@ import java.util.List;
 @ToString
 public class Interrogation extends ClassicWork{
     private Date date;
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE })
     private Course Cours;
 }

@@ -19,8 +19,8 @@ public class Course {
     private String libelle;
     private String professeur;
     private String assistant;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Interrogation> interrogations;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<PraticalWork> praticalWorks;
 }

@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=work_treatment_DB
+    ports:
+      - 3307:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+  app:
+    depends_on:
+      - mysqldb
+    build: .
+    restart: on-failure
+    ports:
+      - 6868:8080
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mysql://localhost:3306/work_treatment_DB?useSSL=false",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
