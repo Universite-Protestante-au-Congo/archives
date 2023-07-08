@@ -1,0 +1,6 @@
+{
+    "require": {
+        "firebase/php-jwt": "^6.4",
+        "php-amqplib/php-amqplib": "^2.8"
+    }
+}
