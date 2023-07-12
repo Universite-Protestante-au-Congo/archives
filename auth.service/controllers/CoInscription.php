@@ -40,13 +40,16 @@ if (isset($_GET['username']) AND isset($_GET['password']) AND isset($_GET['name'
 	{
 		echo "Inscription reussie !";
 		//echo var_dump($user);
-		print_r($user);
+		//print_r($user);
 
-		$json_user = json_encode($user);
-		//var_dump($json_user);
+		$json_user = json_encode($user[0]);
+		var_dump($json_user);
 
 		//Envoie de l'utilisateur au service notation
 		sendToBroker('auth.notation.user',$json_user);
+
+		//Envoie de l'utilisateur au service notation
+		sendToBroker('auth.work.user',$json_user);
 	}
 
 

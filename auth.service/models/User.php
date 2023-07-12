@@ -43,19 +43,29 @@ Class User
 	}
 
 	//Enregistrer le token
-	static function save_token($token)
+	static function save_token($id_user,$token,$product_time,$expiration_time)
 	{
 		$response = false;
 		$bdd = Bdd::bdd_connect();
-		$crypted_token = sha1($token);
-		$add_token = $bdd->prepare("INSERT INTO tokens(token) VALUES (:token)");
+		$product_time = time();
+		$expiration_time = strtotime('+ 1 minute', $product_time);
+
+		$add_token = $bdd->prepare("INSERT INTO tokens(id_user,token,product_time,expiration_time) VALUES (:id_user,:token,FROM_UNIXTIME(:product_time),FROM_UNIXTIME(:expiration_time))");
 		
-		if ( $add_token->execute(array('token'=>$crypted_token)) )
+		$success = $add_token->execute(array('id_user' => $id_user,
+								  'token' => $token,
+								  'product_time' => $product_time,
+								  'expiration_time' => $expiration_time)); 
+
+
+		if($success)
 		{
-			$response = $crypted_token;
+			$get_last_token = $bdd->query('SELECT * FROM tokens WHERE id_token = LAST_INSERT_ID()');
+			$response = $get_last_token->fetchAll(PDO::FETCH_ASSOC);
+			$response = json_encode($response[0]);		
 		}
 
-		return $crypted_token;
+		return $response;
 	}
 
 	

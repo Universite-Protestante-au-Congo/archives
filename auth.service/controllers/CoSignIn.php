@@ -90,22 +90,22 @@ if (isset($_GET['username']) AND isset($_GET['password']))
 	        'HS512'
 	    );
 
-	    
-	    $crypted_token = User::save_token($token);
+	    $crypted_token = sha1($token);
+	    $last_token = User::save_token($data['id_user'],$crypted_token,$request_data['iat'],$request_data['exp']);
 
-	    if( $crypted_token != false)
+	    if( $last_token  != false)
 	    {
 			header('Authorization:'.$crypted_token);
 
 			//Envoie du token au service notation
-			sendToBroker('auth.work.token',$crypted_token); 
+			sendToBroker('auth.work.token',$last_token); 
 
 			//Envoie du token au service work
-			sendToBroker('auth.work.work',$crypted_token);     	
+			sendToBroker('auth.notation.token',$last_token);     	
 	    }
 
 
-	    echo "Token crypté avec SHA1 : ".$crypted_token."\n";
+	    echo "Données envoyées au broker : ".$last_token ."\n";
 	    echo "Token en dur : ".$token."\n";
 
 
